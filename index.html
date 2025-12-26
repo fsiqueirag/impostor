@@ -108,7 +108,7 @@
                 transform: translateY(0);
             }
 
-            #nextBtn {
+            #actionBtn {
                 margin-top: 24px;
             }
 
@@ -215,11 +215,8 @@
                     Jugador
                     <span id="playerNumber"></span>
                 </h2>
-                <button id="revealBtn" onclick="reveal()">Ver palabra</button>
+                <button id="actionBtn" onclick="handleAction()">Ver palabra</button>
                 <div id="result" class="card"></div>
-                <button id="nextBtn" class="hidden" onclick="nextPlayer()">
-                    Siguiente jugador
-                </button>
             </div>
         </div>
         <script src="script.js"></script>

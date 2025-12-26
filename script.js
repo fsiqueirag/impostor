@@ -104,13 +104,32 @@ function startGame() {
   updatePlayer();
 }
 
+let isWordRevealed = false;
+
 function updatePlayer() {
   document.getElementById("playerNumber").textContent = currentPlayer + 1;
   const resultElement = document.getElementById("result");
   resultElement.textContent = "";
   resultElement.classList.remove("impostor");
-  document.getElementById("nextBtn").classList.add("hidden");
-  document.getElementById("revealBtn").classList.remove("hidden");
+  isWordRevealed = false;
+  updateActionButton();
+}
+
+function updateActionButton() {
+  const actionBtn = document.getElementById("actionBtn");
+  if (isWordRevealed) {
+    actionBtn.textContent = "Siguiente jugador";
+  } else {
+    actionBtn.textContent = "Ver palabra";
+  }
+}
+
+function handleAction() {
+  if (isWordRevealed) {
+    nextPlayer();
+  } else {
+    reveal();
+  }
 }
 
 function reveal() {
@@ -125,15 +144,14 @@ function reveal() {
     resultElement.classList.remove("impostor");
   }
   
-  document.getElementById("revealBtn").classList.add("hidden");
-  document.getElementById("nextBtn").classList.remove("hidden");
+  isWordRevealed = true;
+  updateActionButton();
 }
 
 function nextPlayer() {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "";
   resultElement.classList.remove("impostor");
-  document.getElementById("nextBtn").classList.add("hidden");
   
   currentPlayer++;
 
