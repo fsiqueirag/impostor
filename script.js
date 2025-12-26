@@ -1,5 +1,8 @@
 let roles = [];
 let currentPlayer = 0;
+let usedWords = [];
+let numberOfPlayers = 0;
+let isNewRound = false;
 
 const words = [
   "The Beatles",
@@ -84,15 +87,35 @@ const words = [
   "Daft Punk"
 ];
 
-function startGame() {
-  const players = parseInt(document.getElementById("players").value);
+function getRandomUnusedWord() {
+  if (usedWords.length >= words.length) {
+    usedWords = [];
+  }
+
+  const availableWords = words.filter(word => !usedWords.includes(word));
+  const randomIndex = Math.floor(Math.random() * availableWords.length);
+  const chosenWord = availableWords[randomIndex];
+  
+  usedWords.push(chosenWord);
+  return chosenWord;
+}
+
+function startGame(players = null) {
+  if (players === null) {
+    players = parseInt(document.getElementById("players").value);
+  }
 
   if (!players || players < 2) {
     alert("Cantidad de jugadores inválida");
     return;
   }
 
-  const chosenWord = words[Math.floor(Math.random() * words.length)];
+  numberOfPlayers = players;
+  currentPlayer = 0;
+  isWordRevealed = false;
+  isNewRound = false;
+
+  const chosenWord = getRandomUnusedWord();
   const impostorIndex = Math.floor(Math.random() * players);
 
   roles = Array(players).fill(chosenWord);
@@ -117,15 +140,22 @@ function updatePlayer() {
 
 function updateActionButton() {
   const actionBtn = document.getElementById("actionBtn");
-  if (isWordRevealed) {
+  if (isNewRound) {
+    actionBtn.textContent = "Nueva Ronda";
+    actionBtn.classList.add("new-round");
+  } else if (isWordRevealed) {
     actionBtn.textContent = "Siguiente jugador";
+    actionBtn.classList.remove("new-round");
   } else {
     actionBtn.textContent = "Ver palabra";
+    actionBtn.classList.remove("new-round");
   }
 }
 
 function handleAction() {
-  if (isWordRevealed) {
+  if (isNewRound) {
+    startGame(numberOfPlayers);
+  } else if (isWordRevealed) {
     nextPlayer();
   } else {
     reveal();
@@ -156,8 +186,9 @@ function nextPlayer() {
   currentPlayer++;
 
   if (currentPlayer >= roles.length) {
-    alert("Todos listos. ¡A jugar!");
-    location.reload();
+    isNewRound = true;
+    isWordRevealed = false;
+    updateActionButton();
   } else {
     updatePlayer();
   }
