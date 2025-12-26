@@ -5,58 +5,222 @@
         <title>Juego del Impostor</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-    body {
-      font-family: sans-serif;
-      max-width: 500px;
-      margin: 40px auto;
-      text-align: center;
-    }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-    input, button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      font-size: 16px;
-    }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                color: #333;
+            }
 
-    button {
-      cursor: pointer;
-    }
+            .container {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 24px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                max-width: 500px;
+                width: 100%;
+                padding: 40px 30px;
+                text-align: center;
+            }
 
-    .hidden {
-      display: none;
-    }
+            h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 30px;
+                letter-spacing: -0.5px;
+            }
 
-    .card {
-      font-size: 26px;
-      padding: 40px;
-      border: 2px solid #000;
-      margin-top: 20px;
-    }
+            h2 {
+                font-size: 1.75rem;
+                font-weight: 600;
+                color: #2d3748;
+                margin-bottom: 30px;
+            }
+
+            #playerNumber {
+                color: #667eea;
+                font-weight: 700;
+            }
+
+            input {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 1rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 12px;
+                background: #fff;
+                transition: all 0.3s ease;
+                margin-bottom: 20px;
+                outline: none;
+            }
+
+            input:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                transform: translateY(-2px);
+            }
+
+            input::placeholder {
+                color: #a0aec0;
+            }
+
+            button {
+                width: 100%;
+                padding: 16px 24px;
+                font-size: 1rem;
+                font-weight: 600;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-bottom: 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                outline: none;
+            }
+
+            button:not(.card-button) {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+
+            button:not(.card-button):hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            }
+
+            button:not(.card-button):active {
+                transform: translateY(0);
+            }
+
+            #nextBtn {
+                margin-top: 24px;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .card {
+                font-size: 1.75rem;
+                font-weight: 600;
+                padding: 40px 30px;
+                border-radius: 16px;
+                margin-top: 24px;
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                color: white;
+                box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+                animation: slideIn 0.4s ease-out;
+                min-height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                word-break: break-word;
+            }
+
+            .card.impostor {
+                background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+                box-shadow: 0 10px 30px rgba(250, 112, 154, 0.4);
+                animation: pulse 0.6s ease-out;
+            }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+            }
+
+            #setup {
+                animation: fadeIn 0.5s ease-out;
+            }
+
+            #game {
+                animation: fadeIn 0.5s ease-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .container {
+                    padding: 30px 20px;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+
+                h2 {
+                    font-size: 1.5rem;
+                }
+
+                .card {
+                    font-size: 1.5rem;
+                    padding: 30px 20px;
+                }
+            }
         </style>
     </head>
     <body>
-        <h1>Juego del Impostor</h1>
-        <!-- Configuración inicial -->
-        <div id="setup">
-            <input
-                type="number"
-                id="players"
-                placeholder="Cantidad de jugadores"
-                min="2"
-            >
-            <button onclick="startGame()">Empezar</button>
-        </div>
-        <!-- Juego -->
-        <div id="game" class="hidden">
-            <h2>Jugador
-                <span id="playerNumber"></span>
-            </h2>
-            <button onclick="reveal()">Ver palabra</button>
-            <div id="result" class="card hidden"></div>
-            <button id="nextBtn" class="hidden" onclick="nextPlayer()">
-                Siguiente jugador
-            </button>
+        <div class="container">
+            <h1>Juego del Impostor</h1>
+            <!-- Configuración inicial -->
+            <div id="setup">
+                <input
+                    type="number"
+                    id="players"
+                    placeholder="Cantidad de jugadores"
+                    min="2"
+                >
+                <button onclick="startGame()">Empezar</button>
+            </div>
+            <!-- Juego -->
+            <div id="game" class="hidden">
+                <h2>
+                    Jugador
+                    <span id="playerNumber"></span>
+                </h2>
+                <button id="revealBtn" onclick="reveal()">Ver palabra</button>
+                <div id="result" class="card"></div>
+                <button id="nextBtn" class="hidden" onclick="nextPlayer()">
+                    Siguiente jugador
+                </button>
+            </div>
         </div>
         <script src="script.js"></script>
     </body>

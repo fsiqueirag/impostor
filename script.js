@@ -2,7 +2,6 @@ let roles = [];
 let currentPlayer = 0;
 
 const words = [
-  // Rock internacional
   "The Beatles",
   "The Rolling Stones",
   "Led Zeppelin",
@@ -107,17 +106,35 @@ function startGame() {
 
 function updatePlayer() {
   document.getElementById("playerNumber").textContent = currentPlayer + 1;
-  document.getElementById("result").classList.add("hidden");
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "";
+  resultElement.classList.remove("impostor");
   document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("revealBtn").classList.remove("hidden");
 }
 
 function reveal() {
-  document.getElementById("result").textContent = roles[currentPlayer];
-  document.getElementById("result").classList.remove("hidden");
+  const resultElement = document.getElementById("result");
+  const role = roles[currentPlayer];
+  
+  resultElement.textContent = role;
+  
+  if (role === "IMPOSTOR") {
+    resultElement.classList.add("impostor");
+  } else {
+    resultElement.classList.remove("impostor");
+  }
+  
+  document.getElementById("revealBtn").classList.add("hidden");
   document.getElementById("nextBtn").classList.remove("hidden");
 }
 
 function nextPlayer() {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "";
+  resultElement.classList.remove("impostor");
+  document.getElementById("nextBtn").classList.add("hidden");
+  
   currentPlayer++;
 
   if (currentPlayer >= roles.length) {
