@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Juego del Impostor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+    body {
+      font-family: sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    input, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .card {
+      font-size: 26px;
+      padding: 40px;
+      border: 2px solid #000;
+      margin-top: 20px;
+    }
+        </style>
+    </head>
+    <body>
+        <h1>Juego del Impostor</h1>
+        <!-- Configuración inicial -->
+        <div id="setup">
+            <input
+                type="number"
+                id="players"
+                placeholder="Cantidad de jugadores"
+                min="2"
+            >
+            <button onclick="startGame()">Empezar</button>
+        </div>
+        <!-- Juego -->
+        <div id="game" class="hidden">
+            <h2>Jugador
+                <span id="playerNumber"></span>
+            </h2>
+            <button onclick="reveal()">Ver palabra</button>
+            <div id="result" class="card hidden"></div>
+            <button id="nextBtn" class="hidden" onclick="nextPlayer()">
+                Siguiente jugador
+            </button>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
